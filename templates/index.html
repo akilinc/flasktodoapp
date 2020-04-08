@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div style = "margin-top: 50px;" class = "container">
+    <h3>ToDo List</h3>
+    <hr>
+
+    <form action="/add" method="POST">
+        <div class="form-group">
+            <textarea name = "input_title" class="form-control" aria-label="With textarea"></textarea>
+            <button type = "submit" class="btn btn-danger">Add New</button>
+        </div>
+    </form>
+    <hr>
+
+{% if _tuple == [] %}
+    
+</div>
+<div class="alert alert-warning" role="alert">
+  No tasks assigned...
+</div>
+
+{% else %}
+
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Task Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for i in _tuple %}
+            <tr>
+                <th scope="row">{{i.id}}</th>
+                <td>{{i.title}}</td>
+                {% if i.iscompleted == False %}
+                    <td>To Do</td>
+                {% else %}
+                    <td>Done</td>
+                {% endif %}
+                <td><a href="/complete/{{i.id}}"><button class="btn btn-primary">
+                    {% if i.iscompleted == False %}
+                      Close
+                    {% else %}
+                      ReOpen
+                    {% endif %}
+                </button></a></td>
+                <td><a href="/delete/{{i.id}}"><button class="btn btn-danger">Delete</button></a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endif %}
+
+</div>
+
+{% endblock body %}
